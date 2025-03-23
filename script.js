@@ -30,11 +30,13 @@ function initGame() {
     const gameBoard = document.getElementById("game-board");
     gameBoard.innerHTML="";
 
-    cards.forEach(symbol=>{
+    cards.forEach(symbol => {
         const cardElement = createCard(symbol);
         gameBoard.appendChild(cardElement);
     });
 
+    document.getElementById("restart-btn").addEventListener("click", initGame);
+    
     resetBoard();
 }
 
@@ -71,19 +73,15 @@ function flipCard(card) {
     if (lockBoard || card === firstCard) return;
 
     // Write your code here
-    if(!variable) {
-        return;
-    }
-
     card.classList.add("flipped");
     // console.log(card.dataset.symbol);
     card.textContent = card.dataset.symbol;
 
-    if(firstCard == null) {
+    if(!firstCard) {
         firstCard = card;
         // firstCard.classList.add("flipped");
     }
-    if(card === secondCard) {
+    else {
         secondCard = card;
         // secondCard.classList.add("flipped");
         checkForMatch();
@@ -98,10 +96,9 @@ function flipCard(card) {
 */
 function checkForMatch() {
     // Write your code here
-    if(firstCard.dataset.symbol === secondCard.dataset.symbol) {
+    if (firstCard.dataset.symbol === secondCard.dataset.symbol) {
         disableCards();
-    }
-    else {
+    } else {
         unflipCards();
     }
 }
@@ -147,8 +144,10 @@ function shuffleArray(array) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+
+    return array; //<- was missing? or i added so i didn't have to change array
 }
 
-document.getElementById('restart-btn').addEventListener('click', initGame);
+// document.getElementById("restart-btn").addEventListener("click", initGame);
 
 initGame();
