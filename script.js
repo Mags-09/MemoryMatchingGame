@@ -24,6 +24,17 @@ let lockBoard = false;
 function initGame() {
     // Write your code here
 
+    const doubSymbols = symbols.concat(symbols);
+    cards = shuffleArray(doubSymbols);
+
+    const gameBoard = document.getElementById('game-board');
+    gameBoard.innerHTML="";
+
+    cards.forEach(symbol=>{
+        const cardElement = createCard(symbol);
+        gameBoard.appendChild(cardElement);
+    });
+
     document.getElementById('restart-btn').addEventListener('click', initGame);
 }
 
@@ -34,6 +45,17 @@ function initGame() {
 */
 function createCard(symbol) {
     // Write your code here
+
+    const newCard = document.createElement("div");
+    newCard.className="card";
+
+    //how do i save what its symbol is within the element itself?
+    // let sym = symbol;
+
+    newCard.dataset.symbol = symbol;
+
+    newCard.addEventListener("click", () => flipCard(newCard));
+    return newCard;
 }
 
 /*
@@ -47,7 +69,25 @@ function createCard(symbol) {
 function flipCard(card) {
     // If the board is supposed to be locked or you picked the same card you already picked
     if (lockBoard || card === firstCard) return;
+
     // Write your code here
+    if(!variable) {
+        return;
+    }
+
+    card.classList.add("flipped");
+    console.log(card.dataset.symbol);
+
+    if(firstCard == null) {
+        firstCard = card;
+        // firstCard.classList.add("flipped");
+    }
+    if(card === secondCard) {
+        secondCard = card;
+        // secondCard.classList.add("flipped");
+        checkForMatch();
+    }
+
 }
 
 /* 
@@ -57,6 +97,12 @@ function flipCard(card) {
 */
 function checkForMatch() {
     // Write your code here
+    if(firstCard.dataset.symbol === secondCard.dataset.symbol) {
+        disableCards();
+    }
+    else {
+        unflipCards();
+    }
 }
 
 /* 
@@ -66,6 +112,10 @@ function checkForMatch() {
 */
 function disableCards() {
     // Write your code here
+
+    firstCard.classList.add("matched");
+    secondCard.classList.add("matched");
+    resetBoard();
 }
  
 /* ---------------------  Everything under has already been done for you -------------------------- */
