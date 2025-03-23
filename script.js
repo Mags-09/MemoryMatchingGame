@@ -27,7 +27,7 @@ function initGame() {
     const doubSymbols = symbols.concat(symbols);
     cards = shuffleArray(doubSymbols);
 
-    const gameBoard = document.getElementById('game-board');
+    const gameBoard = document.getElementById("game-board");
     gameBoard.innerHTML="";
 
     cards.forEach(symbol=>{
@@ -35,7 +35,7 @@ function initGame() {
         gameBoard.appendChild(cardElement);
     });
 
-    document.getElementById('restart-btn').addEventListener('click', initGame);
+    resetBoard();
 }
 
 /*
@@ -76,7 +76,8 @@ function flipCard(card) {
     }
 
     card.classList.add("flipped");
-    console.log(card.dataset.symbol);
+    // console.log(card.dataset.symbol);
+    card.textContent = card.dataset.symbol;
 
     if(firstCard == null) {
         firstCard = card;
@@ -147,5 +148,7 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
+document.getElementById('restart-btn').addEventListener('click', initGame);
 
 initGame();
